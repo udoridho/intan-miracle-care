@@ -235,7 +235,7 @@ Terima kasih! ✨`;
             // Save then show success
             saveReservation().then(() => {
                 setTimeout(() => {
-                    submitBtn.innerHTML = '✅ Reservasi Berhasil! Terima kasih.';
+                    submitBtn.innerHTML = '✅ Reservasi Berhasil!';
                     form.reset(); // Clear the form
 
                     setTimeout(() => {
