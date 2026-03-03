@@ -199,17 +199,51 @@ Terima kasih! ✨`;
             const waNumber = '6285267474943';
             const waURL = `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
 
+            // 1. Save to Supabase (Database)
+            const saveReservation = async () => {
+                if (typeof window.supabaseClient !== 'undefined') {
+                    const { data: { session } } = await window.supabaseClient.auth.getSession();
+                    const reservationData = {
+                        user_id: session ? session.user.id : null,
+                        nama_ibu: nama,
+                        nama_bayi: namaBayi,
+                        usia_bayi: usiaBayi,
+                        whatsapp: whatsapp,
+                        layanan: layanan,
+                        tanggal: tanggal,
+                        jam: jam,
+                        alamat: alamat,
+                        catatan: catatan
+                    };
+
+                    const { error } = await window.supabaseClient
+                        .from('reservations')
+                        .insert(reservationData);
+
+                    if (error) {
+                        console.error('Error saving reservation:', error);
+                    }
+                }
+            };
+
             // Show success feedback
             const submitBtn = form.querySelector('.btn-primary');
             const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '✅ Mengirim ke WhatsApp...';
+            submitBtn.innerHTML = '⌛ Memproses Reservasi...';
             submitBtn.style.pointerEvents = 'none';
 
-            setTimeout(() => {
-                window.open(waURL, '_blank');
-                submitBtn.innerHTML = originalText;
-                submitBtn.style.pointerEvents = '';
-            }, 800);
+            // Save then open WA
+            saveReservation().then(() => {
+                setTimeout(() => {
+                    window.open(waURL, '_blank');
+                    submitBtn.innerHTML = '✅ Berhasil! Mengalihkan...';
+
+                    setTimeout(() => {
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.style.pointerEvents = '';
+                    }, 2000);
+                }, 800);
+            });
         });
     }
 
