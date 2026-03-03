@@ -143,6 +143,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Reservation Form ---
     const form = document.getElementById('reservationForm');
+
+    // Auto-fill member data if logged in
+    async function checkAndPrefillMember() {
+        if (typeof window.supabaseClient !== 'undefined' && form) {
+            const { data: { session } } = await window.supabaseClient.auth.getSession();
+            if (session) {
+                const { data: profile } = await window.supabaseClient
+                    .from('members')
+                    .select('*')
+                    .eq('id', session.user.id)
+                    .single();
+
+                if (profile) {
+                    if (document.getElementById('namaIbu')) document.getElementById('namaIbu').value = profile.nama_ibu || '';
+                    if (document.getElementById('namaBayi')) document.getElementById('namaBayi').value = profile.nama_bayi || '';
+                    if (document.getElementById('usiaBayi')) document.getElementById('usiaBayi').value = profile.usia_bayi || '';
+                    if (document.getElementById('whatsapp')) document.getElementById('whatsapp').value = profile.whatsapp || '';
+                    if (document.getElementById('alamat')) document.getElementById('alamat').value = profile.alamat || '';
+                }
+            }
+        }
+    }
+    checkAndPrefillMember();
+
     if (form) {
         form.addEventListener('submit', (e) => {
             e.preventDefault();

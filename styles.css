@@ -2424,3 +2424,57 @@ textarea {
   height: 78px;
   /* (200px container height - 44px option height) / 2 */
 }
+/* ============================================
+   Member & Auth Area
+   ============================================ */
+.auth-tabs {
+  display: flex;
+  margin-bottom: 24px;
+  border-bottom: 2px solid var(--pink-100);
+}
+
+.auth-tab {
+  flex: 1;
+  padding: 12px;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.auth-tab.active {
+  color: var(--pink-600);
+  border-bottom: 2px solid var(--pink-600);
+  margin-bottom: -2px;
+}
+
+.auth-card, .profile-card {
+  background: white;
+  padding: 40px;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  margin-bottom: 40px;
+}
+
+.auth-form h3, .profile-card h2 {
+  margin-bottom: 20px;
+  color: var(--text-main);
+}
+
+.btn-secondary {
+  background: var(--pink-50);
+  color: var(--pink-700);
+}
+
+.btn-secondary:hover {
+  background: var(--pink-100);
+}
+
+@media (max-width: 768px) {
+  .auth-card, .profile-card {
+    padding: 24px;
+  }
+}
