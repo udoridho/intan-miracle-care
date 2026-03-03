@@ -232,16 +232,16 @@ Terima kasih! ✨`;
             submitBtn.innerHTML = '⌛ Memproses Reservasi...';
             submitBtn.style.pointerEvents = 'none';
 
-            // Save then open WA
+            // Save then show success
             saveReservation().then(() => {
                 setTimeout(() => {
-                    window.open(waURL, '_blank');
-                    submitBtn.innerHTML = '✅ Berhasil! Mengalihkan...';
+                    submitBtn.innerHTML = '✅ Reservasi Berhasil! Terima kasih.';
+                    form.reset(); // Clear the form
 
                     setTimeout(() => {
                         submitBtn.innerHTML = originalText;
                         submitBtn.style.pointerEvents = '';
-                    }, 2000);
+                    }, 5000);
                 }, 800);
             });
         });
